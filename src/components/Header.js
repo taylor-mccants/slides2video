@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import logo from "../views/slides2video_logo.png";
 
 export const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: inline-block;
   width: 100%;
   background-color: #1a0dab;
   color: white;
+  height: 4em;
 `;
 
-export const Title = styled.h1`
-  font-size: 1.25em;
-  text-align: left;
-  margin: 1em;
+export const LogoContainer = styled.div`
+    text-align: left;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 `;
 
 export const MenuContainer = styled.div`
@@ -25,10 +27,9 @@ class Header extends Component {
     render() {
         return (
             <HeaderContainer>
-                <Title>
-                    Slides2Video
-                    <PlayArrowIcon/>
-                </Title>
+                <LogoContainer>
+                    <img src={logo} width={'15%'}/>
+                </LogoContainer>
                 <MenuContainer>
                 </MenuContainer>
             </HeaderContainer>

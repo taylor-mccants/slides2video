@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import prof from "../views/prof.jpg";
+import slides2vid from "../views/slides2vid_whitefill_img.png";
 
 export const HeroContainer = styled.div`
-  display: flex;
+  display: inline-block;
   width: 50%;
-  margin: 2em;
-  padding: 1em;
-  min-height: 20em;
-  background-color: #6d6e70;
-  color: white;
+  margin: 3em;
 `;
 
 class Hero extends Component {
@@ -16,7 +14,7 @@ class Hero extends Component {
     render() {
         return (
             <HeroContainer>
-                <h3>hero container</h3>
+                <img src={slides2vid} height={"85%"} width={"85%"}/>
             </HeroContainer>
         )
     }
