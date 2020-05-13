@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import PublishIcon from '@material-ui/icons/Publish';
 import withStyles from "@material-ui/core/styles/withStyles";
 import DropBox from "./DropBox";
-import dummy_download from "../dummy_download"
-import FileList from "./FileList";
+import dummy_download from "../dummy_download";
+import dummy_download2 from "../dummy_download2.txt";
+import dummy_video from "../dummy_video.mp4";
+//import dummy_download from "C:/Users/Taylor/slides2vid/public/dummy_download";
 
 export const HowToContainer = styled.div`
   display: grid;
@@ -38,7 +39,7 @@ class HowTo extends Component {
 
     state = {
         files: [],
-        downloadFile: dummy_download
+        downloadFile: dummy_download2
     };
 
     handleDrop = (files) => {
@@ -51,11 +52,22 @@ class HowTo extends Component {
         this.setState({files: fileList})
     };
 
+    downloadFile(absoluteUrl) {
+        let link = document.createElement('a');
+        link.href = absoluteUrl;
+        link.download = 'dummy_download_file';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     handleDownload = () => {
-        console.log("Ready to download: ", this.state.files[0]);
-        let file = this.state.files[0];
+        //this.downloadFile("../dummy_video.mp4");
+        window.open(dummy_video);
+        console.log("Ready to download: ", this.state.downloadFile);
+        /*let file = this.state.downloadFile;
         file.download = 'slides2video_file';
-        file.click();
+        file.click();*/
     };
 
     render() {

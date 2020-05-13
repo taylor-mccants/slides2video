@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import prof from "../views/prof.jpg";
 import slides2vid from "../views/slides2vid_whitefill_img.png";
+import slides2vid2 from "../views/slides2vid_animated_img.png";
 
 export const HeroContainer = styled.div`
   display: inline-block;
