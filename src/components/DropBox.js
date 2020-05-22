@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import PublishIcon from "@material-ui/icons/Publish";
 import FileList from "./FileList";
@@ -27,77 +27,77 @@ export const HoverOverlay = styled.div`
 
 class DropBox extends Component {
 
-    dropRef = React.createRef();
+  dropRef = React.createRef();
 
-    state = {
-        dragging: false
-    };
+  state = {
+    dragging: false
+  };
 
-    componentDidMount() {
-        let div = this.dropRef.current;
-        this.dragCounter = 0;
-        div.addEventListener('dragenter', this.handleDragIn);
-        div.addEventListener('dragleave', this.handleDragOut);
-        div.addEventListener('dragover', this.handleDrag);
-        div.addEventListener('drop', this.handleDrop);
+  componentDidMount() {
+    let div = this.dropRef.current;
+    this.dragCounter = 0;
+    div.addEventListener('dragenter', this.handleDragIn);
+    div.addEventListener('dragleave', this.handleDragOut);
+    div.addEventListener('dragover', this.handleDrag);
+    div.addEventListener('drop', this.handleDrop);
+  }
+
+  componentWillUnmount() {
+    let div = this.dropRef.current;
+    div.removeEventListener('dragenter', this.handleDragIn);
+    div.removeEventListener('dragleave', this.handleDragOut);
+    div.removeEventListener('dragover', this.handleDrag);
+    div.removeEventListener('drop', this.handleDrop);
+  }
+
+  handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  handleDragIn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter++;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      this.setState({ dragging: true })
     }
+  };
 
-    componentWillUnmount() {
-        let div = this.dropRef.current;
-        div.removeEventListener('dragenter', this.handleDragIn);
-        div.removeEventListener('dragleave', this.handleDragOut);
-        div.removeEventListener('dragover', this.handleDrag);
-        div.removeEventListener('drop', this.handleDrop);
+  handleDragOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragCounter--;
+    if (this.dragCounter > 0) return;
+    this.setState({ dragging: false })
+  };
+
+  handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ dragging: false });
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      this.props.handleDrop(e.dataTransfer.files);
+      e.dataTransfer.clearData();
+      this.dragCounter = 0;
     }
+  };
 
-    handleDrag = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    };
-
-    handleDragIn = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.dragCounter++;
-        if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-            this.setState({dragging: true})
-        }
-    };
-
-    handleDragOut = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.dragCounter--;
-        if (this.dragCounter > 0) return;
-        this.setState({dragging: false})
-    };
-
-    handleDrop = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.setState({dragging: false});
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            this.props.handleDrop(e.dataTransfer.files);
-            e.dataTransfer.clearData();
-            this.dragCounter = 0;
-        }
-    };
-
-    render() {
-        return (
-            <ShadowBox ref={this.dropRef}>
-                {this.state.dragging && <HoverOverlay/> }
-                {this.props.files && this.props.files.length > 0 ? (
-                    <FileList files = {this.props.files}/>
-                ) : (
-                    <div>
-                        <p>Drop your slides here...</p>
-                        <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
-                    </div>
-                )}
-            </ShadowBox>
-        );
-    };
+  render() {
+    return (
+      <ShadowBox ref={this.dropRef}>
+        {this.state.dragging && <HoverOverlay />}
+        {this.props.files && this.props.files.length > 0 ? (
+          <FileList files={this.props.files} />
+        ) : (
+            <div>
+              <p>Drop your slides here...</p>
+              <PublishIcon style={{ fontSize: "65px", display: "inline-block" }} />
+            </div>
+          )}
+      </ShadowBox>
+    );
+  };
 }
 
 export default DropBox;

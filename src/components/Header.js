@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import logo from "../views/slides2video_logo.png";
+import logo from "../assets/images/slides2video_logo.png";
 
 export const HeaderContainer = styled.div`
   display: inline-block;
@@ -24,17 +23,17 @@ export const MenuContainer = styled.div`
 
 class Header extends Component {
 
-    render() {
-        return (
-            <HeaderContainer>
-                <LogoContainer>
-                    <img src={logo} width={'15%'}/>
-                </LogoContainer>
-                <MenuContainer>
-                </MenuContainer>
-            </HeaderContainer>
-        )
-    }
+  render() {
+    return (
+      <HeaderContainer>
+        <LogoContainer>
+          <img src={logo} width={'15%'} />
+        </LogoContainer>
+        <MenuContainer>
+        </MenuContainer>
+      </HeaderContainer>
+    )
+  }
 }
 
 export default Header;
