@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import logo from "../views/slides2video_logo.png";
 
 export const FooterContainer = styled.div`
   display: inline-block;
@@ -14,13 +13,13 @@ export const FooterContainer = styled.div`
 
 class Footer extends Component {
 
-    render() {
-        return (
-            <FooterContainer>
-                Created with love, by Taylor & Luca
-            </FooterContainer>
-        )
-    }
+  render() {
+    return (
+      <FooterContainer>
+        Slides2Video
+      </FooterContainer>
+    )
+  }
 }
 
 export default Footer;
