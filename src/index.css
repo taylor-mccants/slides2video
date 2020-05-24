@@ -13,6 +13,6 @@ code {
     monospace;
 }
 
-.MuiStepConnector-vertical {
+#steps .MuiStepConnector-vertical {
   padding: 0
 }
