@@ -1,18 +1,16 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 import PublishIcon from "@material-ui/icons/Publish";
 import FileList from "./FileList";
+import {InputBase} from '@material-ui/core';
 
 export const ShadowBox = styled.div`
-   width: 75%;
-   position: relative;
-   height: 10em;
-   padding: 0.5em;
-   margin: 2em;
+   width: 100%;
+   height: 180px;
+   margin: 1em 0em;
    border-radius: 15px;
    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.10196);
    background-color: #dcdcdc;
-   display: inline-block;
    overflow: auto;
 `;
 
@@ -83,9 +81,19 @@ class DropBox extends Component {
     }
   };
 
+  handleClick = () => {
+    document.getElementById('fileInput').click();
+  };
+
+  handleFileSelect(files) {
+    if (files && files.length > 0) {
+      this.props.handleDrop(files);
+    }
+  };
+
   render() {
     return (
-      <ShadowBox ref={this.dropRef}>
+      <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
         {this.state.dragging && <HoverOverlay />}
         {this.props.files && this.props.files.length > 0 ? (
           <FileList files={this.props.files} />
@@ -93,8 +101,11 @@ class DropBox extends Component {
             <div>
               <p>Drop your slides here...</p>
               <PublishIcon style={{ fontSize: "65px", display: "inline-block" }} />
+              <p>...or click here to find your file</p>
             </div>
           )}
+        <InputBase id="fileInput" type="file" style={{display:'none'}}
+                   multiple accept=".ppt, .pptx" onChange={ (e) => this.handleFileSelect(e.target.files) }/>
       </ShadowBox>
     );
   };

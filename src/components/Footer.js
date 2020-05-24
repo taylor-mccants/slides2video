@@ -1,25 +1,32 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React from "react";
+import {makeStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
-export const FooterContainer = styled.div`
-  display: inline-block;
-  width: 100%;
-  background-color: #1a0dab;
-  color: white;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  font-size: 10px;
-`;
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        minHeight: 10,
+        maxHeight: 20,
+    },
+    title: {
+        margin: 0,
+        minHeight: 30,
+    },
+}));
 
-class Footer extends Component {
 
-  render() {
+export default function Footer() {
+    const classes = useStyles();
+
     return (
-      <FooterContainer>
-        Slides2Video
-      </FooterContainer>
-    )
-  }
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" className={classes.title}>slides2video</Typography>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
 }
-
-export default Footer;

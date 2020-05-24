@@ -2,12 +2,14 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+    },
+    toolbar: {
+        minHeight: 48,
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -25,9 +27,8 @@ export default function Header() {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Toolbar>
-                    <h2 className={classes.title}>slides2video</h2>
-                    <PlayArrowIcon style={{fontSize: 30}}/>
+                <Toolbar className={classes.toolbar}>
+                    <h3 className={classes.title}>slides2video &#9654;</h3>
                 </Toolbar>
             </AppBar>
         </div>

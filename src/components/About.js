@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 
 export const AboutContainer = styled.div`
-    width: 50%;
+    width: 75%;
     display: inline-block;
     margin-bottom: 2em;
 `;
