@@ -10,12 +10,12 @@ class FileList extends Component {
     return (
       <List dense={true}>
         {this.props.files.map((file, i) => (
-          <ListItem>
+          <ListItem key={i}>
             <ListItemIcon>
               <InsertDriveFileIcon />
             </ListItemIcon>
             <ListItemText
-              primary={file}
+              primary={file.name}
             />
           </ListItem>
         ))}
