@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -15,7 +15,7 @@ class FileList extends Component {
               <InsertDriveFileIcon />
             </ListItemIcon>
             <ListItemText
-              primary={file.name}
+              primary={file}
             />
           </ListItem>
         ))}

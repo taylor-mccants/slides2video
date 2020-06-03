@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 import PublishIcon from "@material-ui/icons/Publish";
 import FileList from "./FileList";
-import { InputBase } from '@material-ui/core';
+import {InputBase} from '@material-ui/core';
 
 export const ShadowBox = styled.div`
    width: 100%;
    height: 180px;
    margin: 2em 0 2em 0;
+   position: relative;
    border-radius: 15px;
    background-color: #dcdcdc;
    overflow: auto;
@@ -91,9 +92,10 @@ class DropBox extends Component {
   };
 
   render() {
+    console.log(this.props.files);
     return (
       <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
-        {this.state.dragging && <HoverOverlay />}
+        {this.state.dragging && <HoverOverlay/>}
         {this.props.files && this.props.files.length > 0 ? (
           <FileList files={this.props.files} />
         ) : (

@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, {useState} from "react";
 import DropBox from "./DropBox";
 import VerticalStepper from "./Stepper";
-import { Button, TextField, withStyles } from '@material-ui/core';
+import {Button, TextField, withStyles} from '@material-ui/core';
 import CompletionDialog from "./CompletionDialog";
 import Grid from "@material-ui/core/Grid";
+import SnackbarAlert from "./Alert";
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -17,60 +18,85 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-class HowTo extends Component {
+function HowTo(props) {
 
-  state = {
-    files: [],
-    activeStep: 0,
-    emailAddress: '',
-    dialogOpen: false,
-  };
+  const [files, setFiles] = useState([]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [emailAddress, setEmailAddress] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState("info");
+  const [alertMessage, setAlertMessage] = useState('');
 
-  handleDrop = (files) => {
-    let fileList = this.state.files;
-    console.log("Dropped files: ", files);
-    for (let i = 0; i < files.length; i++) {
-      if (!files[i].name) return;
-      fileList.push(files[i].name);
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
     }
-    this.setState({ files: fileList, activeStep: 1 });
+    setAlertOpen(false);
   };
 
-  handleInputChange(key, value) {
-    this.setState({ [key]: value });
+  const handleDrop = (newFiles) => {
+    let fileList = files;
+    console.log("Dropped files: ", newFiles);
+    for (let i = 0; i < newFiles.length; i++) {
+      if (!newFiles[i].name) return;
+      fileList.push(newFiles[i].name);
+    }
+    setFiles(fileList);
+    setActiveStep(1);
   };
 
-  handleDownload = () => {
-    this.setState({ activeStep: 2, dialogOpen: true });
+  const handleInputChange = (key, value) => {
+    setEmailAddress(value);
   };
 
-  handleCloseDialog = () => {
-    this.setState({ files: [], activeStep: 0, emailAddress: '', dialogOpen: false });
+  const handleDownload = () => {
+    showAlert();
+    setActiveStep(2);
+    //setDialogOpen(true);
   };
 
-  render() {
+  const handleCloseDialog = () => {
+    setFiles([]);
+    setActiveStep(0);
+    setEmailAddress('');
+    setDialogOpen(false);
+  };
+
+  const showAlert = () => {
+    if (files.length === 1) {
+      setAlertSeverity('success');
+      setAlertMessage("Your file was sent!");
+    } else {
+      setAlertSeverity('error');
+      setAlertMessage("You must upload exactly 1 file");
+    }
+    setAlertOpen(true);
+  };
+
     return (
       <Grid container style={{ padding: '3em' }}>
-        <VerticalStepper activeStep={this.state.activeStep} />
-        <DropBox handleDrop={this.handleDrop} files={this.state.files} />
-        <Grid item style={{ display: 'flex' }}>
-          <TextField label="Email"
-            variant='outlined'
-            key="email" value={this.state.emailAddress}
+        <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
+        <VerticalStepper activeStep={activeStep} />
+        <DropBox handleDrop={handleDrop} files={files} />
+        <Grid item lg={8} md={8} sm={8} style={{ display: 'flex'}}>
+          <TextField style={{width: '90%'}} label="Email"
+            key="email" value={emailAddress}
             onChange={(e) => {
-              this.handleInputChange("emailAddress", e.target.value);
+              handleInputChange("emailAddress", e.target.value);
             }}
           />
-          <ColorButton disabled={!this.state.files.length > 0 || !this.state.emailAddress.length > 0}
+        </Grid>
+      <Grid item lg={4} md={4} sm={4} style={{ display: 'flex', flexDirection: 'row-reverse'}}>
+          <ColorButton disabled={!files.length > 0 || !emailAddress.length > 0}
             variant="contained"
-            onClick={this.handleDownload}>
+            onClick={handleDownload}>
             Create Video
           </ColorButton>
         </Grid>
-        <CompletionDialog dialogOpen={this.state.dialogOpen} handleCloseDialog={this.handleCloseDialog} />
+        <CompletionDialog dialogOpen={dialogOpen} handleCloseDialog={handleCloseDialog} />
       </Grid>
     );
-  }
 }
 
 export default HowTo;

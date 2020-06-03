@@ -16,3 +16,7 @@ code {
 #steps .MuiStepConnector-vertical {
   padding: 0
 }
+
+#completedStep .MuiStepIcon-root.MuiStepIcon-completed {
+  color: green;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -37,7 +37,7 @@ export default function VerticalStepper(props) {
   return (
     <Stepper id='steps' activeStep={props.activeStep} orientation="vertical" className={classes.root}>
       {steps.map((label, index) => (
-        <Step key={label}>
+        <Step id='completedStep' key={label}>
           <StepLabel className={classes.stepLabel}>{label}</StepLabel>
         </Step>
       ))}
