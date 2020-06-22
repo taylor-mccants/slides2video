@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Upload your chosen powerpoint file with notes',
     'Enter your email address',
-    'Check your email for a video download link'];
+    'Create video!'];
 }
 
 export default function VerticalStepper(props) {

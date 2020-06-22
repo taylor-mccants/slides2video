@@ -9,10 +9,11 @@ export default function CompletionDialog(props) {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">Download Successful!</DialogTitle>
+            <DialogTitle id="alert-dialog-title">Your request has been submitted!</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Please check your email in the next few minutes for a link to download your file from our server.
+                    Video rendering can take a while. You should receive an email in the next 24 hours with a link to download your video.
+                    If there are any problems, please contact xyz@zyx.com
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

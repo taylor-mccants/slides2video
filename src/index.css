@@ -18,5 +18,13 @@ code {
 }
 
 #completedStep .MuiStepIcon-root.MuiStepIcon-completed {
-  color: green;
+  color: limegreen;
+}
+
+.MuiFormLabel-root.Mui-error {
+  color: limegreen !important;
+}
+
+.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: limegreen !important;
 }
