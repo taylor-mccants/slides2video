@@ -88,7 +88,7 @@ function HowTo(props) {
   };
 
     return (
-      <Grid container style={{ padding: '3em' }}>
+      <Grid container style={{ padding: '2em'}}>
         <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
         <VerticalStepper activeStep={activeStep} />
         <DropBox handleDrop={handleDrop} files={files} loading={loading} />
