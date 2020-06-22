@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import DropBox from "./DropBox";
 import VerticalStepper from "./Stepper";
-import {Button, TextField, withStyles} from '@material-ui/core';
+import { Button, TextField, withStyles } from '@material-ui/core';
 import CompletionDialog from "./CompletionDialog";
 import Grid from "@material-ui/core/Grid";
 import SnackbarAlert from "./Alert";
 import isEmail from 'validator/lib/isEmail';
+import { submitSlides } from "../api"
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -39,11 +40,10 @@ function HowTo(props) {
 
   const handleDrop = (newFiles) => {
     setLoading(true);
-    let fileList = files;
-    console.log("Dropped files: ", newFiles);
+    let fileList = [];
     for (let i = 0; i < newFiles.length; i++) {
       if (!newFiles[i].name) return;
-      fileList.push(newFiles[i].name);
+      fileList.push(newFiles[i]);
     }
     setFiles(fileList);
     setLoading(false);
@@ -55,19 +55,23 @@ function HowTo(props) {
 
   const handleInputChange = (key, value) => {
     setEmailAddress(value);
-    if (files.length >0) {
-      if(isEmail(value))
+    if (files.length > 0) {
+      if (isEmail(value))
         setActiveStep(2);
       else
         setActiveStep(1);
     }
   };
 
-  const handleDownload = () => {
-    showAlert();
-    setDialogOpen(true);
+  const handleSubmit = () => {
+    //setDialogOpen(true);
     setActiveStep(3);
-  };
+    const formData = new FormData()
+    for (const f of files) {
+      formData.append('files', f)
+    }
+    submitSlides(formData);
+  }
 
   const handleCloseDialog = () => {
     setFiles([]);
@@ -87,29 +91,29 @@ function HowTo(props) {
     //setAlertOpen(true);
   };
 
-    return (
-      <Grid container style={{ padding: '2em'}}>
-        <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
-        <VerticalStepper activeStep={activeStep} />
-        <DropBox handleDrop={handleDrop} files={files} loading={loading} />
-        <Grid item lg={8} md={8} sm={8} style={{ display: 'flex'}}>
-          <TextField id='validInput' style={{width: '90%'}} label='Email' variant='outlined'
-            key="email" value={emailAddress} error={isEmail(emailAddress)}
-            onChange={(e) => {
-              handleInputChange("emailAddress", e.target.value);
-            }}
-          />
-        </Grid>
-      <Grid item lg={4} md={4} sm={4} style={{ display: 'flex', flexDirection: 'row-reverse'}}>
-          <ColorButton disabled={!files.length > 0 || !isEmail(emailAddress)}
-            variant="contained"
-            onClick={handleDownload}>
-            Create Video
-          </ColorButton>
-        </Grid>
-        <CompletionDialog dialogOpen={dialogOpen} handleCloseDialog={handleCloseDialog} />
+  return (
+    <Grid container style={{ padding: '2em' }}>
+      <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
+      <VerticalStepper activeStep={activeStep} />
+      <DropBox handleDrop={handleDrop} files={files} loading={loading} />
+      <Grid item lg={8} md={8} sm={8} style={{ display: 'flex' }}>
+        <TextField id='validInput' style={{ width: '90%' }} label='Email' variant='outlined'
+          key="email" value={emailAddress} error={isEmail(emailAddress)}
+          onChange={(e) => {
+            handleInputChange("emailAddress", e.target.value);
+          }}
+        />
       </Grid>
-    );
+      <Grid item lg={4} md={4} sm={4} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <ColorButton disabled={!files.length > 0 || !isEmail(emailAddress)}
+          variant="contained"
+          onClick={handleSubmit}>
+          Create Video
+          </ColorButton>
+      </Grid>
+      <CompletionDialog dialogOpen={dialogOpen} handleCloseDialog={handleCloseDialog} />
+    </Grid>
+  );
 }
 
 export default HowTo;
