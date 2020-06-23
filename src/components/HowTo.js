@@ -70,6 +70,7 @@ function HowTo(props) {
     for (const f of files) {
       formData.append('files', f)
     }
+    formData.append('email', emailAddress)
     submitSlides(formData);
   }
 
