@@ -26,19 +26,13 @@ function HowTo(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [alertSeverity, setAlertSeverity] = useState("info");
+  const [alertSeverity, setAlertSeverity] = useState('info');
   const [alertMessage, setAlertMessage] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertOpen(false);
-  };
 
-  const handleDrop = (newFiles) => {
+  const handleFileSelect = (newFiles) => {
     let fileList = [];
     for (let i = 0; i < newFiles.length; i++) {
       if (!newFiles[i].name) return;
@@ -78,7 +72,7 @@ function HowTo(props) {
     submitSlides(formData);
     setTimeout(function(){
       setLoading(false); setDialogOpen(true);
-      }, 5000);
+      }, 2000);
   };
 
   const handleCloseDialog = () => {
@@ -88,27 +82,29 @@ function HowTo(props) {
     setDialogOpen(false);
   };
 
-  const showAlert = () => {
-    if (files.length === 1) {
-      setAlertSeverity('success');
-      setAlertMessage("Your file was sent!");
-    } else {
-      setAlertSeverity('error');
-      setAlertMessage("You must upload exactly 1 file");
-    }
-    //setAlertOpen(true);
+  const showAlert = (severity, message) => {
+    setAlertSeverity(severity);
+    setAlertMessage(message);
+    setAlertOpen(true);
   };
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+  };
+
 
   return (
     <Grid container style={{ padding: '2em', minWidth: "400px", display: 'flex', flexDirection: 'column'}}>
-      <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
       <h3 style={{ marginBottom: '20px', marginTop: '-5px', textAlign: 'left' }}>Easily convert your powerpoint slides into lecture videos!</h3>
       <VerticalStepper activeStep={activeStep} />
-      <DropBox handleDrop={handleDrop} files={files} />
+      <DropBox onFileSelect={handleFileSelect} files={files} showAlert={showAlert}/>
       <div style={{display: 'flex'}}>
         <Grid item lg={8} md={8} sm={8} style={{ display: 'flex' }}>
           <TextField style={{ width: '90%' }} label='Email' variant='outlined'
-                     key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress}
+                     key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress} autoComplete
                      onChange={(e) => {
                        handleInputChange("emailAddress", e.target.value);
                      }}
@@ -125,6 +121,8 @@ function HowTo(props) {
         </Grid>
       </div>
       <CompletionDialog dialogOpen={dialogOpen} handleCloseDialog={handleCloseDialog} email={emailAddress}/>
+      <SnackbarAlert open={alertOpen} severity={alertSeverity}
+                     message={alertMessage} handleClose={handleCloseAlert}/>
     </Grid>
   );
 }

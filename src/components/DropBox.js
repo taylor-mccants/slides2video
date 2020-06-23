@@ -24,93 +24,112 @@ export const HoverOverlay = styled.div`
 
 class DropBox extends Component {
 
-  dropRef = React.createRef();
+    dropRef = React.createRef();
 
-  state = {
-    dragging: false,
-  };
+    state = {
+        dragging: false,
+        validFileTypes: false,
+    };
 
-  componentDidMount() {
-    let div = this.dropRef.current;
-    this.dragCounter = 0;
-    div.addEventListener('dragenter', this.handleDragIn);
-    div.addEventListener('dragleave', this.handleDragOut);
-    div.addEventListener('dragover', this.handleDrag);
-    div.addEventListener('drop', this.handleDrop);
-  }
-
-  componentWillUnmount() {
-    let div = this.dropRef.current;
-    div.removeEventListener('dragenter', this.handleDragIn);
-    div.removeEventListener('dragleave', this.handleDragOut);
-    div.removeEventListener('dragover', this.handleDrag);
-    div.removeEventListener('drop', this.handleDrop);
-  }
-
-  handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  handleDragIn = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.dragCounter++;
-    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-      this.setState({ dragging: true })
+    componentDidMount() {
+        let div = this.dropRef.current;
+        this.dragCounter = 0;
+        div.addEventListener('dragenter', this.handleDragIn);
+        div.addEventListener('dragleave', this.handleDragOut);
+        div.addEventListener('dragover', this.handleDrag);
+        div.addEventListener('drop', this.handleDrop);
     }
-  };
 
-  handleDragOut = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.dragCounter--;
-    if (this.dragCounter > 0) return;
-    this.setState({ dragging: false })
-  };
-
-  handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.setState({ dragging: false });
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      this.props.handleDrop(e.dataTransfer.files);
-      e.dataTransfer.clearData();
-      this.dragCounter = 0;
+    componentWillUnmount() {
+        let div = this.dropRef.current;
+        div.removeEventListener('dragenter', this.handleDragIn);
+        div.removeEventListener('dragleave', this.handleDragOut);
+        div.removeEventListener('dragover', this.handleDrag);
+        div.removeEventListener('drop', this.handleDrop);
     }
-  };
 
-  handleClick = () => {
-    document.getElementById('fileInput').click();
-  };
+    handleDrag = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
 
-  handleFileSelect(files) {
-    if (files && files.length > 0) {
-      this.props.handleDrop(files);
+    handleDragIn = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.dragCounter++;
+        if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+            this.setState({dragging: true})
+        }
+    };
+
+    handleDragOut = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.dragCounter--;
+        if (this.dragCounter > 0) return;
+        this.setState({dragging: false})
+    };
+
+    handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({dragging: false});
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            this.validateFileTypes(e.dataTransfer.files);
+            if (this.state.validFileTypes) {
+                this.props.onFileSelect(e.dataTransfer.files);
+            } else {
+                this.props.showAlert('error', "wrong file type");
+            }
+            e.dataTransfer.clearData();
+            this.dragCounter = 0;
+        }
+    };
+
+    handleClick = () => {
+        document.getElementById('fileInput').click();
+    };
+
+    handleFileSelect(newFiles) {
+        console.log("newFiles: ", newFiles);
+        if (newFiles && newFiles.length > 0) {
+            this.props.onFileSelect(newFiles);
+        }
+    };
+
+    validateFileTypes(newFiles) {
+        for (let i = 0; i < newFiles.length; i++) {
+            let ext = newFiles[i].name.substring(newFiles[i].name.indexOf('.'));
+            if (ext !== ".ppt" && ext !== ".pptx") {
+                this.setState({validFileTypes: false});
+                return;
+            }
+        }
+        this.setState({validFileTypes: true});
     }
-  };
 
-  render() {
-    console.log(this.props.files);
-    return (
-      <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
-        {this.state.dragging && <HoverOverlay/>}
-        {this.props.files && this.props.files.length > 0 ? (
-          <FileList files={this.props.files} />
-        ) : (
-            <div>
-              <p>Drop your slides here...</p>
-              <PublishIcon style={{ fontSize: "65px", display: "inline-block" }} />
-              <p>...or click here to find your file</p>
-            </div>
-          )}
-        <form action="" enctype="multipart/form-data" method="post">
-          <input id="fileInput" type="file" style={{ display: 'none' }}
-                 multiple="multiple" accept=".ppt, .pptx" onChange={(e) => this.handleFileSelect(e.target.files)} />
-        </form>
-      </ShadowBox>
-    );
-  };
+    render() {
+        return (
+                <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
+                    {this.state.dragging && <HoverOverlay/>}
+                    {this.props.files && this.props.files.length > 0 ? (
+                        <FileList files={this.props.files}/>
+                    ) : (
+                        <div>
+                            <p>Drop your slides here...</p>
+                            <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
+                            <p>...or click here to find your file</p>
+                        </div>
+                    )}
+                    <form action="" enctype="multipart/form-data" method="post">
+                        <input id="fileInput" type="file" style={{display: 'none'}}
+                               multiple="multiple" accept=".ppt, .pptx"
+                               onChange={(e) => this.handleFileSelect(e.target.files)}/>
+                    </form>
+                </ShadowBox>
+        );
+    };
+
 }
 
 export default DropBox;
