@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import PublishIcon from "@material-ui/icons/Publish";
 import FileList from "./FileList";
-import {CircularProgress, InputBase} from '@material-ui/core';
+import {InputBase} from '@material-ui/core';
 
 export const ShadowBox = styled.div`
    width: 100%;
@@ -16,14 +16,6 @@ export const ShadowBox = styled.div`
 
 export const HoverOverlay = styled.div`
     background-color: rgba(255,255,255,.8);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-`;
-
-export const Spinner = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
@@ -104,7 +96,6 @@ class DropBox extends Component {
     return (
       <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
         {this.state.dragging && <HoverOverlay/>}
-        {this.props.loading && <Spinner><CircularProgress/></Spinner>}
         {this.props.files && this.props.files.length > 0 ? (
           <FileList files={this.props.files} />
         ) : (

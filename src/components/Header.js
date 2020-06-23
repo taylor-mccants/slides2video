@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        minWidth: "400px"
     },
     toolbar: {
         minHeight: 48,

@@ -6,9 +6,8 @@ class Hero extends Component {
 
   render() {
     return (
-      <div style={{ padding: '3em' }}>
-        <h2 style={{ marginTop: -10 }}>Easily convert your powerpoint slides into lecture videos!</h2>
-        <img style={{ marginTop: 15 }} src={slides2vid} height={"85%"} width={"85%"} />
+      <div>
+        <img style={{ marginTop: 15, maxWidth: "85%", minWidth: "400px"}} src={slides2vid} height={"auto"} />
       </div>
     )
   }
