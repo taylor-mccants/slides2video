@@ -100,28 +100,30 @@ function HowTo(props) {
   };
 
   return (
-    <Grid container style={{ padding: '2em', minWidth: "400px"}}>
+    <Grid container style={{ padding: '2em', minWidth: "400px", display: 'flex', flexDirection: 'column'}}>
       <SnackbarAlert severity={alertSeverity} message={alertMessage} open={alertOpen} handleClose={handleCloseAlert} />
       <h3 style={{ marginBottom: '20px', marginTop: '-5px', textAlign: 'left' }}>Easily convert your powerpoint slides into lecture videos!</h3>
       <VerticalStepper activeStep={activeStep} />
       <DropBox handleDrop={handleDrop} files={files} />
-      <Grid item lg={8} md={8} sm={8} style={{ display: 'flex' }}>
-        <TextField id='validInput' style={{ width: '90%' }} label='Email' variant='outlined'
-          key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress}
-           onChange={(e) => {
-            handleInputChange("emailAddress", e.target.value);
-          }}
-        />
-      </Grid>
-      <Grid item lg={4} md={4} sm={4} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        <ColorButton disabled={!files.length > 0 || !isEmail(emailAddress)}
-          variant="contained"
-          onClick={handleSubmit}
-          style={{ minWidth: '56px'}}>
+      <div style={{display: 'flex'}}>
+        <Grid item lg={8} md={8} sm={8} style={{ display: 'flex' }}>
+          <TextField style={{ width: '90%' }} label='Email' variant='outlined'
+                     key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress}
+                     onChange={(e) => {
+                       handleInputChange("emailAddress", e.target.value);
+                     }}
+          />
+        </Grid>
+        <Grid item lg={4} md={4} sm={4} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+          <ColorButton disabled={!files.length > 0 || !isEmail(emailAddress)}
+                       variant="contained"
+                       onClick={handleSubmit}
+                       style={{ minWidth: '56px'}}>
 
-          {loading ? <CircularProgress color={'white'}/> : 'Create Video'}
+            {loading ? <CircularProgress color={'white'}/> : 'Create Video'}
           </ColorButton>
-      </Grid>
+        </Grid>
+      </div>
       <CompletionDialog dialogOpen={dialogOpen} handleCloseDialog={handleCloseDialog} email={emailAddress}/>
     </Grid>
   );
