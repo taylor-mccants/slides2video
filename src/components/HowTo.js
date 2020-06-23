@@ -104,7 +104,7 @@ function HowTo(props) {
       <div style={{display: 'flex'}}>
         <Grid item lg={8} md={8} sm={8} style={{ display: 'flex' }}>
           <TextField style={{ width: '90%' }} label='Email' variant='outlined'
-                     key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress} autoComplete
+                     key="email" value={emailAddress} error={isEmail(emailAddress)} onKeyPress={onEnterPress} autoComplete="email"
                      onChange={(e) => {
                        handleInputChange("emailAddress", e.target.value);
                      }}
