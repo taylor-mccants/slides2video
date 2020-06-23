@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import PublishIcon from "@material-ui/icons/Publish";
 import FileList from "./FileList";
-import {InputBase} from '@material-ui/core';
 
 export const ShadowBox = styled.div`
    width: 100%;
@@ -105,8 +104,10 @@ class DropBox extends Component {
               <p>...or click here to find your file</p>
             </div>
           )}
-        <InputBase id="fileInput" type="file" style={{ display: 'none' }}
-          multiple accept=".ppt, .pptx" onChange={(e) => this.handleFileSelect(e.target.files)} />
+        <form action="" enctype="multipart/form-data" method="post">
+          <input id="fileInput" type="file" style={{ display: 'none' }}
+                 multiple="multiple" accept=".ppt, .pptx" onChange={(e) => this.handleFileSelect(e.target.files)} />
+        </form>
       </ShadowBox>
     );
   };
