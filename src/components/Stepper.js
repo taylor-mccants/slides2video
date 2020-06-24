@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Upload your chosen powerpoint file with notes',
-    'Enter your email address',
-    'Create video!'];
+  return ['Select the PowerPoint files you would like to convert (make sure each slide has notes for narration)',
+    'Enter the email address you would like the videos to be sent to',
+    'Create video and wait!'];
 }
 
 export default function VerticalStepper(props) {

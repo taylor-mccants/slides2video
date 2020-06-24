@@ -6,7 +6,7 @@ import FileList from "./FileList";
 export const ShadowBox = styled.div`
    width: 100%;
    height: 180px;
-   margin: 2em 0 2em 0;
+   margin: 40px 0;
    position: relative;
    border-radius: 15px;
    background-color: #dcdcdc;
@@ -121,7 +121,7 @@ class DropBox extends Component {
                             <p>...or click here to find your file</p>
                         </div>
                     )}
-                    <form action="" enctype="multipart/form-data" method="post">
+                    <form action="" encType="multipart/form-data" method="post">
                         <input id="fileInput" type="file" style={{display: 'none'}}
                                multiple="multiple" accept=".ppt, .pptx"
                                onChange={(e) => this.handleFileSelect(e.target.files)}/>

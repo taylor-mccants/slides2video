@@ -6,9 +6,7 @@ class Hero extends Component {
 
   render() {
     return (
-      <div>
-        <img style={{ marginTop: 15, maxWidth: "85%", minWidth: "400px"}} src={slides2vid} height={"auto"} />
-      </div>
+        <img style={{ marginTop: 15, maxWidth: "85%"}} src={slides2vid} height={"auto"} />
     )
   }
 }
