@@ -27,6 +27,16 @@ code {
   flex-wrap: wrap;
   margin: 50px;
 }
+@media (max-width: 1200px) {
+  .flexContainer {
+    flex-direction: column;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .flexHero {
+    margin-bottom: 20px;
+  }
+}
 
 .flexHero {
   flex: 1;
