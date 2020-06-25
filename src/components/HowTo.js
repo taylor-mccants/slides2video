@@ -110,7 +110,6 @@ function HowTo(props) {
                                 onClick={handleSubmit}
                                 style={{minWidth: '56px', fontWeight: 'bold'}}>
                             Create Video
-                            {/*loading ? <CircularProgress color={'white'}/> : 'Create Video'*/}
                         </Button>
                     </Grid>
                 </div>
@@ -118,7 +117,7 @@ function HowTo(props) {
                 <SnackbarAlert open={alertOpen} severity={alertSeverity}
                                message={alertMessage} handleClose={handleCloseAlert}/>
             </Grid>
-          {loading ? <div><LinearProgress/></div> : <div/>}
+          {loading ? <LinearProgress style={{maxWidth: '800px', borderRadius: '5px', marginTop: '-4px'}} /> : null}
         </div>
     );
 }

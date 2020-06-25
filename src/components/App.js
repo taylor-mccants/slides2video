@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Hero from './Hero';
 import HowTo from "./HowTo";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
               <HowTo/>
           </div>
       </div>
+        <Footer />
     </div>
   );
 }

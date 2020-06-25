@@ -1,19 +1,16 @@
 import React from "react";
 import {makeStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        minHeight: 10,
-        maxHeight: 20,
-    },
-    title: {
-        margin: 0,
-        minHeight: 30,
-    },
+    footer: {
+        position: 'fixed',
+        left: 0,
+        bottom: 0,
+        width: '100%',
+        backgroundColor: '#dcdcdc',
+        fontSize: '12px',
+        textAlign: 'center',
+    }
 }));
 
 
@@ -21,12 +18,10 @@ export default function Footer() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>slides2video</Typography>
-                </Toolbar>
-            </AppBar>
+        <div className={classes.footer}>
+            <p>
+                supported by <a href='http://www.socialnetworks.uzh.ch/' target='_blank'>URPP Social Networks</a> at the University of Zurich
+            </p>
         </div>
     );
 }
