@@ -6,8 +6,10 @@ import CompletionDialog from "./CompletionDialog";
 import Grid from "@material-ui/core/Grid";
 import SnackbarAlert from "./Alert";
 import isEmail from 'validator/lib/isEmail';
-import {submitSlides} from "../api"
 import LinearProgress from "@material-ui/core/LinearProgress";
+    import axios from 'axios';
+
+const BASE_URL = 'http://127.0.0.1:5000';
 
 function HowTo(props) {
 
@@ -59,11 +61,19 @@ function HowTo(props) {
         }
         formData.append('email', emailAddress);
         submitSlides(formData);
-        setTimeout(function () {
-            setLoading(false);
-            setDialogOpen(true);
-        }, 2000);
     };
+
+     const submitSlides = (formData) => {
+      axios.post(BASE_URL + '/convert_slides_to_video', formData)
+        .then(function (response) {
+          setDialogOpen(true);
+        })
+        .catch(function (error) {
+          showAlert('error', 'There was a problem with completing the request.');
+        }).finally(function() {
+            setLoading(false);
+      });
+    }
 
     const handleCloseDialog = () => {
         setFiles([]);
