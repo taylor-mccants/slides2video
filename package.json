@@ -19,6 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "export-build": "react-scripts build && rm -rf ../slides2video-backend/build && mv build ../slides2video-backend",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

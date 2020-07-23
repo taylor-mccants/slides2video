@@ -7,12 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import SnackbarAlert from "./Alert";
 import isEmail from 'validator/lib/isEmail';
 import LinearProgress from "@material-ui/core/LinearProgress";
-    import axios from 'axios';
-
-const BASE_URL = 'http://127.0.0.1:5000';
+import axios from 'axios';
 
 function HowTo(props) {
-
     const [files, setFiles] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -21,7 +18,6 @@ function HowTo(props) {
     const [alertSeverity, setAlertSeverity] = useState('info');
     const [alertMessage, setAlertMessage] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
-
 
     const handleFileSelect = (newFiles) => {
         let fileList = [];
@@ -64,7 +60,7 @@ function HowTo(props) {
     };
 
      const submitSlides = (formData) => {
-      axios.post(BASE_URL + '/convert_slides_to_video', formData)
+      axios.post('/convert_slides_to_video', formData)
         .then(function (response) {
           setDialogOpen(true);
         })
