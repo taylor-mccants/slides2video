@@ -116,9 +116,9 @@ class DropBox extends Component {
                         <FileList files={this.props.files}/>
                     ) : (
                         <div>
-                            <p>Drop your slides here...</p>
+                            <p>Drop your slides here / Click here to find your file</p>
                             <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
-                            <p>...or click here to find your file</p>
+                            <p>2 GB Limit</p>
                         </div>
                     )}
                     <form action="" encType="multipart/form-data" method="post">
