@@ -99,7 +99,7 @@ class DropBox extends Component {
 
     validateFileTypes(newFiles) {
         for (let i = 0; i < newFiles.length; i++) {
-            let ext = newFiles[i].name.substring(newFiles[i].name.indexOf('.'));
+            let ext = newFiles[i].name.substring(newFiles[i].name.lastIndexOf('.'));
             if (ext !== ".ppt" && ext !== ".pptx") {
                 this.setState({validFileTypes: false});
                 return;
