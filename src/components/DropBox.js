@@ -29,6 +29,7 @@ class DropBox extends Component {
     state = {
         dragging: false,
         validFileTypes: false,
+        validNumFiles: false,
     };
 
     componentDidMount() {
@@ -76,10 +77,9 @@ class DropBox extends Component {
         this.setState({dragging: false});
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             this.validateFileTypes(e.dataTransfer.files);
-            if (this.state.validFileTypes) {
+            this.validateFileLimit(e.dataTransfer.files);
+            if (this.state.validFileTypes && this.state.validNumFiles) {
                 this.props.onFileSelect(e.dataTransfer.files);
-            } else {
-                this.props.showAlert('error', "wrong file type");
             }
             e.dataTransfer.clearData();
             this.dragCounter = 0;
@@ -101,11 +101,21 @@ class DropBox extends Component {
         for (let i = 0; i < newFiles.length; i++) {
             let ext = newFiles[i].name.substring(newFiles[i].name.lastIndexOf('.'));
             if (ext !== ".ppt" && ext !== ".pptx") {
+                this.props.showAlert('error', "wrong file type");
                 this.setState({validFileTypes: false});
                 return;
             }
         }
         this.setState({validFileTypes: true});
+    }
+
+    validateFileLimit(newFiles) {
+        if (newFiles.length > 1) {
+            this.props.showAlert('error', 'You can only upload one file at a time.');
+            this.setState({validNumFiles: false});
+            return;
+        }
+        this.setState({validNumFiles: true});
     }
 
     render() {
@@ -123,7 +133,7 @@ class DropBox extends Component {
                     )}
                     <form action="" encType="multipart/form-data" method="post">
                         <input id="fileInput" type="file" style={{display: 'none'}}
-                               multiple="multiple" accept=".ppt, .pptx"
+                               accept=".ppt, .pptx"
                                onChange={(e) => this.handleFileSelect(e.target.files)}/>
                     </form>
                 </ShadowBox>
