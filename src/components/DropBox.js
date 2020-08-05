@@ -49,6 +49,11 @@ class DropBox extends Component {
         div.removeEventListener('drop', this.handleDrop);
     }
 
+    onDragStart = (e) => {
+        e.dataTransfer.clearData();
+        e.setData('text/plain', 'test');
+    };
+
     handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -81,7 +86,6 @@ class DropBox extends Component {
             if (this.state.validFileTypes && this.state.validNumFiles) {
                 this.props.onFileSelect(e.dataTransfer.files);
             }
-            e.dataTransfer.clearData();
             this.dragCounter = 0;
         }
     };
@@ -91,7 +95,6 @@ class DropBox extends Component {
     };
 
     handleFileSelect(newFiles) {
-        console.log("newFiles: ", newFiles);
         if (newFiles && newFiles.length > 0) {
             this.props.onFileSelect(newFiles);
         }
@@ -120,7 +123,7 @@ class DropBox extends Component {
 
     render() {
         return (
-                <ShadowBox ref={this.dropRef} onClick={this.handleClick}>
+                <ShadowBox ref={this.dropRef} onClick={this.handleClick} ondragstart={this.onDragStart}>
                     {this.state.dragging && <HoverOverlay/>}
                     {this.props.files && this.props.files.length > 0 ? (
                         <FileList files={this.props.files}/>
