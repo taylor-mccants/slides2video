@@ -65,7 +65,11 @@ function HowTo(props) {
           setDialogOpen(true);
         })
         .catch(function (error) {
-          showAlert('error', 'There was a problem with completing the request.');
+            if (error.response.data.error) {
+                showAlert('error', error.response.data.error);
+            } else {
+                showAlert('error', 'There was a problem with completing the request.');
+            }
         }).finally(function() {
             setLoading(false);
       });
