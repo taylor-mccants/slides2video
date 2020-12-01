@@ -12,7 +12,8 @@ export default function CompletionDialog(props) {
             <DialogTitle id="alert-dialog-title">Your request has been submitted!</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Video rendering can take a while. An email will be sent to <b>{props.email}</b> in the next 24 hours with a link to download your video.
+                    Video rendering can take a while. An email will be sent to <b>{props.email}</b> in the next two
+                    hours with a link to download your video.
                     If there are any problems, please contact luca.weibel@uzh.ch
                 </DialogContentText>
             </DialogContent>

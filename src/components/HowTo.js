@@ -8,9 +8,15 @@ import SnackbarAlert from "./Alert";
 import isEmail from 'validator/lib/isEmail';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from 'axios';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function HowTo(props) {
+    const SUBMIT_SLIDES_URL = 'http://slides2video-api-dev.eu-central-1.elasticbeanstalk.com/convert_slides_to_video'
     const [files, setFiles] = useState([]);
+    const [textLanguage, setTextLanguage] = useState('en');
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(false);
     const [emailAddress, setEmailAddress] = useState('');
@@ -53,26 +59,23 @@ function HowTo(props) {
         setActiveStep(3);
         const formData = new FormData();
         for (const f of files) {
-            formData.append('files', f)
+            formData.append('file', f)
         }
+        formData.append('text_language', textLanguage)
         formData.append('email', emailAddress);
         submitSlides(formData);
     };
 
-     const submitSlides = (formData) => {
-      axios.post('/convert_slides_to_video', formData)
-        .then(function (response) {
-          setDialogOpen(true);
-        })
-        .catch(function (error) {
-            if (error.response.data.error) {
-                showAlert('error', error.response.data.error);
-            } else {
+    const submitSlides = (formData) => {
+        axios.post(SUBMIT_SLIDES_URL, formData)
+            .then(function (response) {
+                setDialogOpen(true);
+            })
+            .catch(function (error) {
                 showAlert('error', 'There was a problem with completing the request.');
-            }
-        }).finally(function() {
+            }).finally(function () {
             setLoading(false);
-      });
+        });
     }
 
     const handleCloseDialog = () => {
@@ -103,6 +106,16 @@ function HowTo(props) {
                 <h2 style={{marginBottom: '32px', marginTop: '-5px', textAlign: 'left'}}>Easily convert your PowerPoint
                     slides into lecture videos!</h2>
                 <VerticalStepper activeStep={activeStep}/>
+                <FormControl style={{width: 140, marginTop: '40px'}}>
+                    <InputLabel id="demo-simple-select-label">Video Language</InputLabel>
+                    <Select
+                        value={textLanguage}
+                        onChange={(e) => setTextLanguage(e.target.value)}
+                    >
+                        <MenuItem value='en'>English</MenuItem>
+                        <MenuItem value='de'>German</MenuItem>
+                    </Select>
+                </FormControl>
                 <DropBox onFileSelect={handleFileSelect} files={files} showAlert={showAlert}/>
                 <div style={{display: 'flex'}}>
                     <Grid item lg={8} md={8} sm={8} style={{display: 'flex'}}>
@@ -127,7 +140,7 @@ function HowTo(props) {
                 <SnackbarAlert open={alertOpen} severity={alertSeverity}
                                message={alertMessage} handleClose={handleCloseAlert}/>
             </Grid>
-          {loading ? <LinearProgress style={{maxWidth: '800px', borderRadius: '5px', marginTop: '-4px'}} /> : null}
+            {loading ? <LinearProgress style={{maxWidth: '800px', borderRadius: '5px', marginTop: '-4px'}}/> : null}
         </div>
     );
 }

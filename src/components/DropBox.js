@@ -6,7 +6,7 @@ import FileList from "./FileList";
 export const ShadowBox = styled.div`
    width: 100%;
    height: 180px;
-   margin: 40px 0;
+   margin: 30px 0;
    position: relative;
    border-radius: 15px;
    background-color: #dcdcdc;
@@ -28,8 +28,6 @@ class DropBox extends Component {
 
     state = {
         dragging: false,
-        validFileTypes: false,
-        validNumFiles: false,
     };
 
     componentDidMount() {
@@ -81,9 +79,7 @@ class DropBox extends Component {
         e.stopPropagation();
         this.setState({dragging: false});
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            this.validateFileTypes(e.dataTransfer.files);
-            this.validateFileLimit(e.dataTransfer.files);
-            if (this.state.validFileTypes && this.state.validNumFiles) {
+            if (this.validateFileInput(e.dataTransfer.files)) {
                 this.props.onFileSelect(e.dataTransfer.files);
             }
             this.dragCounter = 0;
@@ -95,51 +91,61 @@ class DropBox extends Component {
     };
 
     handleFileSelect(newFiles) {
-        if (newFiles && newFiles.length > 0) {
+        if (newFiles && newFiles.length > 0 && this.validateFileInput(newFiles)) {
             this.props.onFileSelect(newFiles);
         }
     };
+
+    validateFileInput(newFiles) {
+        return this.validateFileTypes(newFiles) && this.validateFileLimit(newFiles) && this.validateFileSize(newFiles)
+    }
 
     validateFileTypes(newFiles) {
         for (let i = 0; i < newFiles.length; i++) {
             let ext = newFiles[i].name.substring(newFiles[i].name.lastIndexOf('.'));
             if (ext !== ".ppt" && ext !== ".pptx") {
-                this.props.showAlert('error', "wrong file type");
-                this.setState({validFileTypes: false});
-                return;
+                this.props.showAlert('error', "Incorrect file type selected.");
+                return false
             }
         }
-        this.setState({validFileTypes: true});
+        return true
     }
 
     validateFileLimit(newFiles) {
         if (newFiles.length > 1) {
             this.props.showAlert('error', 'You can only upload one file at a time.');
-            this.setState({validNumFiles: false});
-            return;
+            return false
         }
-        this.setState({validNumFiles: true});
+        return true
+    }
+
+    validateFileSize(newFiles) {
+        if (newFiles[0].size / 1024 / 1024 > 20) {
+            this.props.showAlert('error', 'Maximum file size of 20 MB exceeded.');
+            return false
+        }
+        return true
     }
 
     render() {
         return (
-                <ShadowBox ref={this.dropRef} onClick={this.handleClick} ondragstart={this.onDragStart}>
-                    {this.state.dragging && <HoverOverlay/>}
-                    {this.props.files && this.props.files.length > 0 ? (
-                        <FileList files={this.props.files}/>
-                    ) : (
-                        <div>
-                            <p>Drop your slides here / Click here to find your file</p>
-                            <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
-                            <p>2 GB Limit</p>
-                        </div>
-                    )}
-                    <form action="" encType="multipart/form-data" method="post">
-                        <input id="fileInput" type="file" style={{display: 'none'}}
-                               accept=".ppt, .pptx"
-                               onChange={(e) => this.handleFileSelect(e.target.files)}/>
-                    </form>
-                </ShadowBox>
+            <ShadowBox ref={this.dropRef} onClick={this.handleClick} ondragstart={this.onDragStart}>
+                {this.state.dragging && <HoverOverlay/>}
+                {this.props.files && this.props.files.length > 0 ? (
+                    <FileList files={this.props.files}/>
+                ) : (
+                    <div>
+                        <p>Drop your slides here / Click here to find your file</p>
+                        <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
+                        <p>20 MB Limit</p>
+                    </div>
+                )}
+                <form action="" encType="multipart/form-data" method="post">
+                    <input id="fileInput" type="file" style={{display: 'none'}}
+                           accept=".ppt, .pptx"
+                           onChange={(e) => this.handleFileSelect(e.target.files)}/>
+                </form>
+            </ShadowBox>
         );
     };
 
