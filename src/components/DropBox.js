@@ -103,7 +103,7 @@ class DropBox extends Component {
     validateFileTypes(newFiles) {
         for (let i = 0; i < newFiles.length; i++) {
             let ext = newFiles[i].name.substring(newFiles[i].name.lastIndexOf('.'));
-            if (ext !== ".ppt" && ext !== ".pptx") {
+            if (ext !== ".pptx") {
                 this.props.showAlert('error', "Incorrect file type selected.");
                 return false
             }
@@ -142,7 +142,7 @@ class DropBox extends Component {
                 )}
                 <form action="" encType="multipart/form-data" method="post">
                     <input id="fileInput" type="file" style={{display: 'none'}}
-                           accept=".ppt, .pptx"
+                           accept=".pptx"
                            onChange={(e) => this.handleFileSelect(e.target.files)}/>
                 </form>
             </ShadowBox>
