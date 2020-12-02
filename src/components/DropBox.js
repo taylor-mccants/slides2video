@@ -5,7 +5,7 @@ import FileList from "./FileList";
 
 export const ShadowBox = styled.div`
    width: 100%;
-   height: 180px;
+   height: 190px;
    margin: 30px 0;
    position: relative;
    border-radius: 15px;
@@ -134,7 +134,7 @@ class DropBox extends Component {
                 {this.props.files && this.props.files.length > 0 ? (
                     <FileList files={this.props.files}/>
                 ) : (
-                    <div>
+                    <div style={{padding: "0px 20px"}}>
                         <p>Drop your slides here / Click here to find your file</p>
                         <PublishIcon style={{fontSize: "65px", display: "inline-block"}}/>
                         <p>20 MB Limit</p>
